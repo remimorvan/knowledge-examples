@@ -1,0 +1,79 @@
+% !TEX program = pdflatex
+\documentclass[a4]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[british]{babel} % For the date to be written in a non-barbaric way
+
+\usepackage{hyperref} % You need to load hyperref before knowledge
+\usepackage{cleveref} % You do NOT need to load cleverref, but I highly recommand it!
+\usepackage[xcolor, notion, quotation]{knowledge}
+% To leave the "writting mode" and hide the anchor point, load knowledge with the "electronic" option.
+
+
+\input{notions} % notions for knowledge
+\input{commands} % (math) commands defined using knowledge
+
+
+\title{Knowledge: minimal(ish) example}
+\author{Rémi Morvan}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+
+This document is an example of {\LaTeX} document written using "knowledge", a package
+written by "Thomas Colcombet", which allows you to \emph{easily} add internal (and external)
+hyperlinks in your documents.
+
+\AP Say that at some point of your document, you want to define "foo".
+For instance, say that the ""foo"" of an integer $x$ is
+defined as the smallest integer $y$ such that $y \geq x$, and is denoted
+by $\intro*\foo(x)$.
+
+\AP In this paragraph, you want to talk about "kittens". Unfortunately, part of your audience
+might not know what "kittens" are, so you need to define the notion. A ""kitten"" is some
+kind of cat, but slightly smaller and cuter. Note that ``"kittens"'' and ``"kitten"''
+refer to the same notion (this is declared in the file \texttt{notions.tex}).
+
+
+\section{My theorem}
+
+In this section, you are finaly ready to prove your incredible theorem:
+for every integer, the "foo" of $x$ is $x$ itself. If you wish, you can remind your reader
+where "foo" was defined: it was in \kCref{foo}, Page \kpageref{foo}.
+
+\section{A note on anchor points}
+
+\AP On the left-hand side on the document, you can notice small red corners, called ""anchor points"".
+Without them, the default behaviour of "knowledge" (inherited from \texttt{hyperref}) would be to
+send you, for example when clicking on ``"foo"'' or ``"kitten"'', at the beginning of the section in which ``"foo"'' and
+``kitten'' were defined. This is not precise enough, so you can add "anchor points" using the command
+\texttt{\textbackslash AP}: thanks to those, ``"foo"'' and ``"kitten"'' are references to two different paragraphs of
+the document
+
+It is usefull to see your "anchor points" when writting a document, but you don't want to display them when compiling the final version of your document. To desactivate anchor points (and hide warning), you can add the option
+\texttt{electronic} when loading "knowledge".
+
+
+\section{Math commands}
+
+You can define a ``partial link'' in some math command.
+For example, say that you want a command \texttt{\textbackslash foobar} that takes an argument and displays this
+argument between brackets: $\foobar{\phi}$.
+You might want the argument $\phi$ not to link to the definition of \texttt{\textbackslash foobar}: you can easily
+to that, by defining \AP \texttt{\textbackslash foobar} (producing $\intro*\foobar{x}$) as 
+\begin{verbatim}
+    \knowledgenewrobustcmd{\foobar}[1]{
+        \cmdkl{[} #1 \cmdkl{]}
+    }
+\end{verbatim}
+Only what is written inside \texttt{\textbackslash cmdkl} will be linked to the definition of the notion. 
+
+
+\end{document}
