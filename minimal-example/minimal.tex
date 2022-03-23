@@ -1,79 +1,110 @@
-% !TEX program = pdflatex
-\documentclass[a4]{article}
-
-
+\documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage[british]{babel} % For the date to be written in a non-barbaric way
+\usepackage[T1]{fontenc}
+% If the output is a PDF (avoids some display problems, in particular in arXiv).
+\pdfoutput = 1
 
-\usepackage{hyperref} % You need to load hyperref before knowledge
-\usepackage{cleveref} % You do NOT need to load cleverref, but I highly recommand it!
-\usepackage[xcolor, notion, quotation]{knowledge}
-% To leave the "writting mode" and hide the anchor point, load knowledge with the "electronic" option.
+%
+% This is the file 
+%
+%   knowledge-example.tex
+%
+% and is part of the LaTeX package _knowledge_.
+% It can be used as a starting point for creating a document using the _knowledge_ package.
+%
+% The documentation of the _knowledge_ package can be found:
+% - in your tex distribution, using the command
+%        texdoc knowledge
+% - or at the address
+%.       https://ctan.org/pkg/knowledge
+%
+%
+% Loading other packages before knowledge activates features.
+% The most common use of knowledge makes use of hyperref and xcolor:
+\usepackage[breaklinks,hidelinks]{hyperref} 
+\usepackage{xcolor} 
+%
+% The package 'knowledge' has  now to be loaded.
+% The options 
+%      'paper', 'electronic' or 'composition' (default)
+% can be used. These activates different rendering styles:
+% - 'paper' produce a paper to be printed:
+%   text in black and white
+% - 'electronic' highlights links using colors:
+%   for being read on an electronic device
+% - 'composition' (or default) highlights missing knowledges as
+%   well as agives other pieces of information. It should always
+%   be used but when the paper is ready.
+%
+\usepackage{knowledge} % default
+%\usepackage[scope,electronic]{knowledge} % final version to be read electronically
+%\usepackage[scope,paper]{knowledge} % final version in black and white for printing
+%
+
+% The 'notion' configuration is commonly used for scientific papers.
+\knowledgeconfigure{notion}
+
+% The 'quotation' configuration is commonly used and triggers the "..." notation.
+\knowledgeconfigure{quotation}
+
+% It is convenient to provide a list of \knowledge in an external file.
+\input{notions}
 
 
-\input{notions} % notions for knowledge
-\input{commands} % (math) commands defined using knowledge
 
-
-\title{Knowledge: minimal(ish) example}
-\author{Rémi Morvan}
-\date{\today}
-
-
+\title{Minimal example for the \texttt{knowledge} package}
+\date{}
 \begin{document}
-
 \maketitle
-
+\begin{abstract}
+\AP This document provides an elementary example of the "knowledge package" for "latex" and can be used as a starting point for creating one's own document.
+\end{abstract}
 
 \section{Introduction}
+\label{section:introduction}
 
-This document is an example of {\LaTeX} document written using "knowledge", a package
-written by "Thomas Colcombet", which allows you to \emph{easily} add internal (and external)
-hyperlinks in your documents.
+The package ""knowledge@@package"" is a package for "latex" that helps associating information to terms. This can be used for:
+\begin{itemize}
+\item managing external urls, for instance separating the file containing  the addresses from their use,
+\item managing internal references's such as linking every use of a concept to the place of its introduction (in particular avoiding the use of labels),
+\item managing the index in a centralized way,
+\item replacing some macros for configuring the display.
+\end{itemize}
+Primarily, the goal of the "knowledge@@package" is for the production of scientific documents (the longer, the more interesting, such as a thesis or a book) in order to improve their readability on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware. Some capabilities (link handling the index) are not related to this purpose in particular.
 
-\AP Say that at some point of your document, you want to define "foo".
-For instance, say that the ""foo"" of an integer $x$ is
-defined as the smallest integer $y$ such that $y \geq x$, and is denoted
-by $\intro*\foo(x)$.
+\section{Example running}
+\label{section:example}
+Try compiling this document (two compilation phases to have proper links) using "pdflatex", and see how some notions are hyperlinked to their introduction point (some viewers make it more obvious than others by displaying a preview of the target of a link inside a document; since there is only one page in this example, this may be worth zooming in this case).
+\AP When the "paper mode" is not active, links are clearly identified in blue. Try then compiling it in ""paper mode"" (an option of the "knowledge package"); it now looks like a regular paper (but the links are still there). In ""electronic mode"",
+the links are still colored, but some other hints disappear like "anchor points".
 
-\AP In this paragraph, you want to talk about "kittens". Unfortunately, part of your audience
-might not know what "kittens" are, so you need to define the notion. A ""kitten"" is some
-kind of cat, but slightly smaller and cuter. Note that ``"kittens"'' and ``"kitten"''
-refer to the same notion (this is declared in the file \texttt{notions.tex}).
-
-
-\section{My theorem}
-
-In this section, you are finaly ready to prove your incredible theorem:
-for every integer, the "foo" of $x$ is $x$ itself. If you wish, you can remind your reader
-where "foo" was defined: it was in \kCref{foo}, Page \kpageref{foo}.
-
-\section{A note on anchor points}
-
-\AP On the left-hand side on the document, you can notice small red corners, called ""anchor points"".
-Without them, the default behaviour of "knowledge" (inherited from \texttt{hyperref}) would be to
-send you, for example when clicking on ``"foo"'' or ``"kitten"'', at the beginning of the section in which ``"foo"'' and
-``kitten'' were defined. This is not precise enough, so you can add "anchor points" using the command
-\texttt{\textbackslash AP}: thanks to those, ``"foo"'' and ``"kitten"'' are references to two different paragraphs of
-the document
-
-It is usefull to see your "anchor points" when writting a document, but you don't want to display them when compiling the final version of your document. To desactivate anchor points (and hide warning), you can add the option
-\texttt{electronic} when loading "knowledge".
+% \AP provides an anchor point: this will be the precise target of the hyperlink.
+% It is good practice to use is at the beginning of every paragraph that contains
+% \intro commands. If 'final=false', then these anchor points appear as a small
+% corner (red with xcolor).
 
 
-\section{Math commands}
+\knowledgeconfigure{quotation=false}% temporarily disables the " notation
+\AP While writing a document, the two syntaxes \verb|"text"| and \verb|""text""| should be used each time some important concept is used or introduced respectively in the paper. For instance:
+\begin{quote}
+\verb|Define a ""group"" to be a "monoid" such that...|
+\end{quote}
+The `@' symbol allows some flexibility by having a displayed text different from the target:
+\begin{quote}
+\verb|"This kind of algebras@solvable groups"...|
+\end{quote}
+\knowledgeconfigure{quotation}
 
-You can define a ``partial link'' in some math command.
-For example, say that you want a command \texttt{\textbackslash foobar} that takes an argument and displays this
-argument between brackets: $\foobar{\phi}$.
-You might want the argument $\phi$ not to link to the definition of \texttt{\textbackslash foobar}: you can easily
-to that, by defining \AP \texttt{\textbackslash foobar} (producing $\intro*\foobar{x}$) as 
+\AP These concepts are referred to as ""knowledges"". "Knowledges" are to be defined (in general in the preamble of the document) using a command of the form:
 \begin{verbatim}
-    \knowledgenewrobustcmd{\foobar}[1]{
-        \cmdkl{[} #1 \cmdkl{]}
-    }
+  \knowledge{directives}
+    | name
+    | synonym1
+    | synonym2
+    | ...
 \end{verbatim}
-Only what is written inside \texttt{\textbackslash cmdkl} will be linked to the definition of the notion. 
+However, using undefined "knowledges" will not cause compile time errors, but be displayed as in the following `"unknown knowledge"' (i.e. in non-"paper mode" in brown, but in regular black in "paper mode" or "electronic mode"). \AP The ""diagnose file"" (that ends with a \texttt{.diagnose} extension) contains detailed information about these warnings, and should be read often when finalizing the document.
 
-
+\AP Small red corners called ""anchor points"" are visible in the margin, and represent the precise location in a pdf document where an internal link jumps. These are introduced
+using the \texttt{\detokenize{\AP}}command, commonly at the beginning of each paragraph that introduce some concept, or even in the middle of the paragraph. The "anchor points" become invisible in "paper@paper mode" or "electronic mode".
 \end{document}

@@ -1,15 +1,50 @@
-\knowledge{notion, url={https://ctan.org/pkg/knowledge}, typewriter}
- | knowledge
-
-\knowledge{notion, url={https://www.irif.fr/~colcombe/}}
- | Thomas Colcombet
-
+% The list of \knowledge should be provided using the following syntax:
+%
+%    \knowledge{directives}
+%       | main knowledge
+%       | synonym_1
+%       | synonym_2
+%       | ...
+%
+% or using the older syntax (which should be used in macros)
+%
+%    \knowledge{knowledge text}[synonym 1|synonym 2|...]{directives}
+%
+% The most common directive in a science paper is 'notion': knowledges that
+% are used in the body with  \intro and \kl commands/""...""" and "..." notatation:
 \knowledge{notion}
- | foo
-
-\knowledge{notion}
- | kitten
- | kittens
-
-\knowledge{notion}
+ | anchor point
  | anchor points
+ | Anchor points
+
+\knowledge{notion}
+ | diagnose file
+
+\knowledge{notion,typewriter}
+ | knowledge package
+ | knowledge@package
+
+\knowledge{notion}
+ | paper mode
+
+\knowledge{notion}
+ | electronic mode
+
+\knowledge{notion}
+ | composition mode
+
+% the synonym directive can replace the [...] syntax 
+\knowledge{notion}
+ | knowledge
+ | knowledges
+ | Knowledges
+
+% Some other configurations are possible, such as external url's or replacement texts:
+\knowledge{url={https://fr.wikipedia.org/wiki/LaTeX},  text=\LaTeX}
+ | LaTeX
+ | latex
+ | LATEX
+ | Latex
+
+\knowledge{url={https://en.wikipedia.org/wiki/PdfTeX}, typewriter}
+  | pdflatex
