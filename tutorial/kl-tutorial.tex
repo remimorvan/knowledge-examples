@@ -1,0 +1,314 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% If the output is a PDF (avoids some display problems, in particular in arXiv).
+\pdfoutput = 1
+
+
+% This is the file kl-minimal.tex.
+% It can be used as a starting point for creating a document using the _knowledge_ package.
+%
+% The documentation of the _knowledge_ package can be found:
+% - in your tex distribution, using the command
+%        texdoc knowledge
+% - or at the address
+%.       https://ctan.org/pkg/knowledge
+%
+%
+% Loading other packages before knowledge activates features.
+% The most common use of knowledge makes use of hyperref and xcolor:
+\usepackage[breaklinks]{hyperref} 
+\usepackage{xcolor} 
+%
+% The package 'knowledge' has now to be loaded.
+% The options 
+%      'paper', 'electronic' or 'composition' (default)
+% can be used. These activates different rendering styles:
+% - 'paper' produce a paper to be printed:
+%   text in black and white
+% - 'electronic' highlights links using colors:
+%   for being read on an electronic device
+% - 'composition' (or default) highlights missing knowledges as
+%   well as gives other pieces of information. It should always
+%   be used but when the paper is ready.
+%
+\usepackage{knowledge} % default
+%\usepackage[electronic]{knowledge} % final version to be read electronically
+%\usepackage[paper]{knowledge} % final version in black and white for printing
+
+% The 'notion' configuration is commonly used for scientific papers.
+% The 'quotation' configuration is commonly used and triggers the "..." notation.
+\knowledgeconfigure{notion, quotation}
+
+% It is convenient to provide a list of knowledges in an external file.
+\input{notions}
+% It is convenient to provide a list of macros in an external file.
+\input{macros}
+
+
+\title{A tutorial for the "knowledge@@package" package}
+\author{Enthusiastic users of the "knowledge@@package" package}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    This is a working example of a \LaTeX~document written with the 
+    "knowledge@@package" package.
+    It shows the basic features of the package, namely how 
+    to introduce internal and external hyperlinks on text and math commands. It 
+    can be used as a starting point for creating one's own document.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+The package \AP""knowledge@@package"" is a package for "latex" that helps associating 
+information to terms. It can be used for:
+\begin{itemize}
+    \item managing external urls, for instance separating the file containing   
+        the addresses from their use,
+    \item managing internal references's such as linking every use of a concept 
+        to the place of its introduction
+        (in particular avoiding the use of labels),
+    \item managing the index in a centralized way,
+    \item replacing some macros.
+\end{itemize}
+
+Primarily, the goal of the "knowledge@@package" is for the production of scientific documents (the longer, the more interesting, such as a thesis or a book) in order to improve their readability on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware.
+
+Throughout this document, we will refer to the "knowledge@@package" 
+"documentation". It can be accessed localy by typing \verb|texdoc knowledge| in 
+a prompt, or "online@documentation".
+
+To use "knowledge@@package" in your "latex" document, write in the preamble:
+\begin{verbatim}
+    \usepackage[breaklinks]{hyperref} 
+    \usepackage{xcolor} 
+
+    \usepackage{knowledge}
+
+    \knowledgeconfigure{notion, quotation}
+\end{verbatim}
+
+By default, "knowledge@@package" is loaded in \AP""composition mode"", which renders 
+links and warnings. The document can be switched to the \AP""paper mode""
+which is made for printing (links still exist but are displayed in black)
+or \AP""electronic mode"" (links are colored, warnings and "anchor points"
+are hidden), by writing \verb|\usepackage[paper]{knowledge}|
+or \verb|\usepackage[electronic]{knowledge}|, respectively.
+
+\section{Basic features}
+
+Try compiling this document (two compilation phases to have proper links) using pdflatex, and see how some notions are hyperlinked to their introduction point (some viewers make it more obvious than others by displaying a preview of the target of a link inside a document).
+
+\subsection{Aesthetical changes and external links}
+
+\AP""Knowledges@@concept"" are the key concept in the "knowledge@@package" 
+package. Essentially, a "knowledge@@concept" corresponds to a concept used in 
+the document. To invoke a "knowledge@@concept" named ``tomato'', one simply has 
+to write \verb|\kl{tomato}| (or simply
+\knowledgeconfigure{quotation=false}%
+\verb|"tomato"|%
+\knowledgeconfigure{quotation=true}%
+if the 'quotation' 
+configuration is enabled) in their document. At compilation, this will 
+print the text ``tomato'' and apply (aesthetical or semantical) changes that
+are associated with the "knowledge@@concept" ``tomato''.
+
+To specify what modifications should be performed on a "knowledge@@concept", 
+you must define it, either in the beginning of your document or in an external file (in \texttt{notions.tex} in this example) included in your preamble.
+The basic syntax to do so is
+\begin{verbatim}
+    \knowledge{}
+     | tomato
+\end{verbatim}
+\AP""Directives"" can be written between the pair of brackets. A complete list of "directives" can be found in §5.3 of the "knowledge@@package" "documentation". Most basic example include:
+\begin{itemize}
+    \item \verb|url=<LINK>| to add an external hyperlink;
+    \item \verb|color=<COLOR>| to change the color of the "knowledge@@concept";
+    \item \verb|italic| and \verb|up| to force/unforce italic;
+    \item \verb|boldface| and \verb|md| to force/unforce boldface;
+    \item \verb|smallcaps| to force small capitals;
+    \item \verb|underline| to underline;
+    \item \verb|lowercase| and \verb|uppercase| to render the text in lowercase or uppercase;
+    \item \verb|typewriter| to render the text in typewriter.
+\end{itemize}
+
+You will often want to define synonyms, i.e. to have multiple names associated to a single "knowledge@@concept": for instance you might want ``tomatoes'', ``Tomato'' and  ``Tomatoes'' to all refer to the same "knowledge@@concept" as ``tomato''. This can be achieved by defining each synonym on a new line, precedeed by a pipe. For example
+\begin{verbatim}
+    \knowledge{url={https://en.wikipedia.org/wiki/Tomato},
+        color=purple, boldface}
+     | tomato
+     | tomatoes
+     | Tomato
+     | Tomatoes
+\end{verbatim}
+will produce the following result when one writes \verb|\kl{Tomatoes}| or
+\knowledgeconfigure{quotation=false}%
+\verb|"Tomatoes"|%
+\knowledgeconfigure{quotation=true}:%
+\begin{quote}
+    "Tomatoes"
+\end{quote}
+namely it will write the text ``Tomatoes'' in bold, purple, and insert a link to the Wikipedia page named ``Tomato''.
+
+
+\subsection{Internal hyperlinks: the "notion" directive}
+
+The ""notion"" "directive" allows you to easily introduce internal hyperlinks.
+Say that you have defined a "knowledge@@concept"
+\begin{verbatim}
+    \knowledge{notion, <OTHER_DIRECTIVES>}
+     | name
+     | synonym
+\end{verbatim}
+By writting \verb|\intro{name}| (or
+\verb|\intro{synonym}|, or 
+\knowledgeconfigure{quotation=false}%
+\verb|""name""|, or \verb|""synonym""|%
+\knowledgeconfigure{quotation=true}%,
+) you will \AP""introduce"" your knowledge. Then, whenever you will write
+\verb|\kl{name}| (or
+\verb|\kl{synonym}|, or 
+\knowledgeconfigure{quotation=false}%
+\verb|"name"|, or \verb|"synonym"|)%
+\knowledgeconfigure{quotation=true}
+"knowledge@@package" will add an internal hyperlink to the place where
+your "notion" was "introduced". The default behaviour\footnote{Inherited from
+"hyperref".} is to add a link to the beginning of the section in which the "notion" was introduced. Since this is very often unsatisfying, the command
+\verb|\AP| allows you to define custom \AP""anchor points"", depicted as 
+small red corners in the left margin of your document when you are in "composition mode".
+Internal hyperlinks 
+will refer to the last anchor point preceding the "introduction" of your 
+"notion".
+
+By default, "notions" appear in blue, and "introduction" of "notions"
+appear in dark blue and italics.
+Note that a single "notion" should only be introduced once (even if you have synonyms). Should you want to reintroduce an already introduced "notion", 
+you can use the \verb|\reinto{...}| command. 
+
+\subsection{Scopes and extended syntax}
+
+Sometimes the same piece of text can refer to different concepts: for example, in this document, ``knowledge'' refers both to the "knowledge@@package" package
+and to the concept of "knowledges@@concept". In this case, \AP""scopes"" allow 
+you to distinguish these concepts, by defining the two "knowledges@@concept"
+\begin{verbatim}
+    \knowledge{url={https://ctan.org/pkg/knowledge}, typewriter}
+     | knowledge@package
+
+    \knowledge{notion}
+     | knowledge@concept
+\end{verbatim}
+To invoke one or the other, you can write
+\knowledgeconfigure{quotation=false}%
+\begin{verbatim}
+    "knowledge@@scope"
+        or
+    \kl(scope){knowledge}
+\end{verbatim}
+\knowledgeconfigure{quotation}%
+where \verb|scope| is either \verb|package| or
+\verb|concept|.
+More informations on "scopes" can be found in §3.5 of the "documentation".
+
+Finally, if you want to display some ``text'' that behaves
+like some "knowledge@@concept" named ``name'', you can write
+\knowledgeconfigure{quotation=false}%
+\begin{verbatim}
+    "text@name"
+        or
+    \kl[name]{text}
+\end{verbatim}
+\knowledgeconfigure{quotation}%
+This is useful when you do not want ``text'' to be a synonym
+of ``name'' throughout the paper but only locally.
+For instance,
+\knowledgeconfigure{quotation=false}%
+\begin{verbatim}
+    (...) "These vegetables@tomato" are (...)
+\end{verbatim}
+\knowledgeconfigure{quotation}%
+produces 
+\begin{quote}
+    (...) "These vegetables@tomato" are (...)
+\end{quote}
+namely the style of the "knowledge@@concept" ``tomato'' is applied to the
+string ``These vegetables''.
+
+
+\subsection{Mathematical commands}
+
+
+The previous sections can mostly be applied to mathematical commands:
+for instance 
+\begin{verbatim}
+    $\kl[tomato]{\Pi^P_2}$
+\end{verbatim}
+will produce $\kl[tomato]{\Pi^P_2}$. However, as a rule of thumb,
+this should be avoided as there is a more elegant syntax for 
+knowledgyfied mathematical commands. It is recommanded to
+use semantic macros instead of syntactic ones: for example,
+instead of defining a macro \verb|\Ac| that displays $\mathcal{A}$, 
+define \verb|\automata| or \verb|\algebra|.
+
+The basic syntax to define a new mathematical command is:
+\begin{verbatim}
+    \knowledgenewrobustcmd<COMMAND_NAME>{\cmdkl{
+        <YOUR_MACRO>
+    }}
+\end{verbatim}
+for example
+\begin{verbatim}
+    \knowledgenewrobustcmd\automata{\cmdkl{
+        \mathcal{A}
+    }}
+\end{verbatim}
+defines a macro named \verb|\automata| that prints an `$\mathcal{A}$' and 
+defines a "notion" named \verb|\automata|.
+Using the command \verb|\automata| (e.g: $\automata$) will result in
+"knowledge@@package" automatically inserting a link to the last "anchor point"
+preceding the introduction of the "notion" \verb|\automata|.
+This notion can be introduced by writting
+\begin{verbatim}
+    \intro*\automata
+\end{verbatim}
+which produces the following result: $\AP\intro*\automata$.
+
+The \verb|\cmdkl| command allows you to control which part of the macro will be
+knowledgyfied/cliquable. For instance, if you define the macro
+\AP\phantomintro{\interval}
+\begin{verbatim}
+    \knowledgenewrobustcmd\interval[2]{
+        \cmdkl{[} #1, #2 \cmdkl{]}
+    }
+\end{verbatim}
+then \verb|$\interval{a}{b}$| will produce $\interval{a}{b}$: only the two
+brackets will be cliquable.
+
+
+\section{Knowledge-Clustering}
+
+\subsection{Installation}
+
+\subsection{Clustering knowledges}
+
+\subsection{Forgotten quotes}
+
+
+\section{Advanced features}
+
+\subsection{Spacing for math commands}
+
+\subsection{Disabling commands}
+
+\subsection{Changing the default colors}
+
+
+
+\end{document}
