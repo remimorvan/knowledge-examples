@@ -20,6 +20,7 @@
 % Loading other packages before knowledge activates features.
 % The most common use of knowledge makes use of hyperref and xcolor:
 \usepackage[breaklinks]{hyperref} 
+\usepackage{cleveref} 
 \usepackage{xcolor} 
 %
 % The package 'knowledge' has now to be loaded.
@@ -48,20 +49,26 @@
 \input{macros}
 
 
+\usepackage{graphicx}
+
+
 \title{A tutorial for the "knowledge@@package" package}
 \author{Enthusiastic users of the "knowledge@@package" package}
 \date{\today}
+
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-    This is a working example of a \LaTeX~document written with the 
-    "knowledge@@package" package.
+    This is a tutorial on how to to use the 
+    "knowledge@@package" package, together with "knowledge-clustering".
     It shows the basic features of the package, namely how 
-    to introduce internal and external hyperlinks on text and math commands. It 
-    can be used as a starting point for creating one's own document.
+    to introduce internal and external hyperlinks on text and math commands,
+    as well as more advanced features.
+    It also contains a guide on how to install and use "knowledge-clustering", 
+    a ``nifty software tool'' that aims to ease the use of "knowledge@@package".
 \end{abstract}
 
 \tableofcontents
@@ -138,6 +145,7 @@ The basic syntax to do so is
     \item \verb|underline| to underline;
     \item \verb|lowercase| and \verb|uppercase| to render the text in lowercase or uppercase;
     \item \verb|typewriter| to render the text in typewriter.
+    \item \verb|text=<TEXT>| to change the text that is displayed.
 \end{itemize}
 
 You will often want to define synonyms, i.e. to have multiple names associated to a single "knowledge@@concept": for instance you might want ``tomatoes'', ``Tomato'' and  ``Tomatoes'' to all refer to the same "knowledge@@concept" as ``tomato''. This can be achieved by defining each synonym on a new line, precedeed by a pipe. For example
@@ -191,7 +199,7 @@ will refer to the last anchor point preceding the "introduction" of your
 By default, "notions" appear in blue, and "introduction" of "notions"
 appear in dark blue and italics.
 Note that a single "notion" should only be introduced once (even if you have synonyms). Should you want to reintroduce an already introduced "notion", 
-you can use the \verb|\reinto{...}| command. 
+you can use the \verb|\reinto{...}| command.
 
 \subsection{Scopes and extended syntax}
 
@@ -294,16 +302,166 @@ brackets will be cliquable.
 
 \section{Knowledge-Clustering}
 
+\subsection{Goal}
+
+"Knowledge-clustering" is a command-line tool that aims to automate part of
+the process of writting a document with "knowledge@@package".
+As of today, "knowledge-clustering" has to main features:
+\begin{itemize}
+    \item the "clustering" feature, which automates the definitions
+    of synonyms. For example,  if at some point you already defined the 
+    "knowledge@@concept" \verb|tomato| and write in your document
+    \knowledgeconfigure{quotation=false}%
+    \verb|"Tomatoes"|
+    \knowledgeconfigure{quotation}%
+    then, at compilation, "latex" will rightfully produce a warning,
+    saying that the knowledge \verb|Tomatoes| is undefined.
+    At this point, you should run "knowledge-clustering", which will propose to 
+    you to define \verb|Tomatoes| as a synonym of \verb|tomato|.
+    \item the "add quotes" feature, that can be used at the very end of your 
+    writting process, to check if every piece of text that is defined as
+    a "knowledge@@concept" is surronded by quotes. For example, this feature 
+    \knowledgeconfigure{quotation=false}%
+    would suggest to replace the string \verb|Let $x$ be a tomato such that (…)|
+    in you \verb|.tex| file by \verb|Let $x$ be a "tomato" such that (…)|.
+    \knowledgeconfigure{quotation}%
+\end{itemize}
+
 \subsection{Installation}
 
+To install "knowledge-clustering", you need to have a machine with
+\verb|python3| and \verb|pip3|. To install, or upgrade, "knowledge-clustering",
+you can simply run
+\begin{verbatim}
+    pip3 install --upgrade knowledge-clustering
+\end{verbatim}
+in your shell.
+Then, you should run
+\begin{verbatim}
+    knowledge init
+\end{verbatim}
+to download some data, used by the "clustering" algorithm\footnote{This 
+downloads some data used by "NLTK", a natural language package used by 
+"knowledge@@package".}.
+
+\paragraph{Autocomplete}
+If the autocomplete of the command \verb|knowledge| does not work,
+you can follow the following procedure:
+if you are using \verb|zsh| (resp. \verb|bash|), then add
+\knowledgeconfigure{quotation=false}%
+\begin{verbatim}
+    eval "`pip completion --zsh`"
+\end{verbatim}
+or 
+\begin{verbatim}
+    eval "`pip completion --bash`"
+\end{verbatim}
+\knowledgeconfigure{quotation}%
+in your \verb|.zshrc| file (resp. \verb|.bashrc|).
+For the change to take effect, you either need to launch a new terminal,
+or run \verb|source ~/.zshrc| (resp. \verb|source ~/.bashrc|).
+
 \subsection{Clustering knowledges}
+
+\subsubsection{Basic use}
+
+The \AP""clustering"" feature is meant to be used
+when you are writing you "latex" document with "knowledge@@package".
+Maintaining the list of all the "knowledges@@concept" you're using
+can be burdersome, so usually you will write your "latex" code
+and use, in this code, some "knowledges@@concept" that are yet to be
+defined.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=.9\textwidth]{img/small-before.png}
+    \caption{%
+        \label{fig:clustering-before}
+        Content of the file containing the defined "knowledges@@concept"
+        (left-hand side) and of the \texttt{.diagnose} file produced by
+        "latex" at compilation (right-hand side), before running 
+        "knowledge-clustering".
+    }
+\end{figure}
+
+For example, \Cref{fig:clustering-before} illustrates the following situation:
+in the file containing all your defined "knowledges@@concept", you have
+four "knowledges@@concept", one of which is ``\verb|word|''.
+In your main \verb|.tex| file---which is not reproduced here---, you used some 
+undefined "knowledges@@concept", such as ``\verb|words|'' and
+``\verb|semigroup|''.
+At compilation, "latex" will produce a warning, saying that you have undefined
+"knowledges@@concept", and write in a \verb|.diagnose| file a list
+of these undefined "knowledges@@concept".
+
+At this point, you have two options: you can either define every undefined "knowledge@@concept", by hand, and say that ``\verb|words|'' is a synonym of
+``\verb|word|'' while ``\verb|semigroup|'' is a new "knowledge@@concept".
+Or, you can use the "clustering" feature of "knowledge-clustering": feed
+it both files (the file \verb|small.tex| containing the defined 
+"knowledges@@concept" and
+the \verb|small.diagnose| file containing the undefined "knowledges@@concept")
+by running the command
+\begin{verbatim}
+    knowledge cluster -n small.tex -d small.diagnose
+\end{verbatim}
+which will write suggestions in your file \verb|small.tex|,
+as depicted in \Cref{fig:clustering-after}. These suggestions
+take the form of comments: if you agree with the suggestion, you can just
+uncomment the line, and otherwise, you should move it, by hand.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=.9\textwidth]{img/small-after.png}
+    \caption{%
+        \label{fig:clustering-after}
+        After running "knowledge-clustering", the \texttt{small.diagnose} file
+        is left unchanged, while \texttt{small.tex} now contains suggestions
+        of how to define the new "knowledges@@concept".
+     }
+\end{figure}
+
+
+\subsubsection{Advanced features}
+
+To display the help, you can run \verb|knowledge cluster --help|.
+
+\paragraph{Language} The "clustering" algorithm relies on natural language 
+processing and is language-specific. As of today, only two languages
+are supported: english (which is the default language) and french.
+To use "knowledge-clustering" on a document written in french,
+simply add \verb|-l fr| or \verb|--lang fr| at the end of your command.
+
+
+\paragraph{Scopes} In the example of
+\Cref{fig:clustering-before,fig:clustering-after}
+you can see that "knowledge-cluste\-ring" infered that the
+scope ``ord'' meant ``countable ordinals''\footnote{This was infered
+by reading the \texttt{small.tex} file, and was used to cluster
+the "knowledge@@concept" ``countable ordinal word'' with ``word@ord''.}.
+If you want the list of scopes it saw,
+and of their infered meaning, you can use the \verb|-S| or \verb|--scope| 
+option. 
+For instance, running
+\begin{verbatim}
+    knowledge cluster -n small.tex -d small.diagnose --scope
+\end{verbatim}
+will print in your prompt
+\begin{verbatim}
+    Defined scopes:
+	    @ord : [['ordinals', 'countable'], ['ord']]
+\end{verbatim}
+
 
 \subsection{Forgotten quotes}
 
 
+The "add quotes" feature is meant to be used when your document is (nearly)
+finished and you want to check that you have not forgotten ``quotes'' symbols
+(or a \verb|kl{}| command) before and after defined "knowledges@@concept".
+
 \section{Advanced features}
 
-\subsection{Spacing for math commands}
+\subsection{Weird spacing for math commands}
 
 \subsection{Disabling commands}
 
