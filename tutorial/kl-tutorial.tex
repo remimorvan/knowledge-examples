@@ -50,6 +50,7 @@
 
 
 \usepackage{graphicx}
+\usepackage{spverbatim}
 
 
 \title{A tutorial for the "knowledge@@package" package}
@@ -73,25 +74,50 @@
 
 \tableofcontents
 
+\paragraph{Acknowledgments} We would like to thank
+\href{http://www.matricon.ninja/}{Théo Matricon} for helpful feedback
+on a previous version of this document.
+
+
 \section{Introduction}
+
+\subsection{The "knowledge@@package" package}
 
 The package \AP""knowledge@@package"" is a package for "latex" that helps associating 
 information to terms. It can be used for:
 \begin{itemize}
     \item managing external urls, for instance separating the file containing   
-        the addresses from their use,
+        the addresses from their use;
     \item managing internal references's such as linking every use of a concept 
         to the place of its introduction
-        (in particular avoiding the use of labels),
-    \item managing the index in a centralized way,
+        (in particular avoiding the use of labels);
+    \item managing the index in a centralized way;
     \item replacing some macros.
 \end{itemize}
 
-Primarily, the goal of the "knowledge@@package" is for the production of scientific documents (the longer, the more interesting, such as a thesis or a book) in order to improve their readability on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware.
+Primarily, the goal of "knowledge@@package" is to produce of scientific documents (the longer, the more interesting, such as a thesis or a book) in order to improve their readability on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware.
+
+\subsection{This tutorial}
+
+This tutorial starts with a description of the \textbf{basic features of
+"knowledge@@package"} in \Cref{sec:basic-features}, followed by an
+introduction on how to use "knowledge-clustering", which is a
+\textbf{command-line tool designed to greatly
+speed up the process of writing a document} with "knowledge@@package"
+in \Cref{sec:knowledge-clustering}. Finally, \Cref{sec:advanced-features}
+deals with more \textbf{advanced features} of the "knowledge@@package" package.
 
 Throughout this document, we will refer to the "knowledge@@package" 
-"documentation". It can be accessed localy by typing \verb|texdoc knowledge| in 
-a prompt, or "online@documentation".
+"documentation". It can be accessed locally by
+typing \spverb|texdoc knowledge| in 
+a prompt or "online@documentation".
+
+\section{Basic features}
+\label{sec:basic-features}
+
+Try compiling this document (two compilation phases to have proper links) using \spverb|pdflatex| and see how some notions are hyperlinked to their introduction point (some viewers make it more obvious than others by displaying a preview of the target of a link inside a document).
+
+\subsection{Using "knowledge@@package" in your "latex" document}
 
 To use "knowledge@@package" in your "latex" document, write in the preamble:
 \begin{verbatim}
@@ -104,25 +130,25 @@ To use "knowledge@@package" in your "latex" document, write in the preamble:
 \end{verbatim}
 
 By default, "knowledge@@package" is loaded in \AP""composition mode"", which renders 
-links and warnings. The document can be switched to the \AP""paper mode""
+links and warnings. The document can be switched to \AP""paper mode"",
 which is made for printing (links still exist but are displayed in black)
 or \AP""electronic mode"" (links are colored, warnings and "anchor points"
-are hidden), by writing \verb|\usepackage[paper]{knowledge}|
-or \verb|\usepackage[electronic]{knowledge}|, respectively.
+are hidden), by writing
+\begin{itemize}
+    \item \spverb|\usepackage[paper]{knowledge}| or
+    \item \spverb|\usepackage[electronic]{knowledge}|.
+\end{itemize} 
 
-\section{Basic features}
-
-Try compiling this document (two compilation phases to have proper links) using pdflatex, and see how some notions are hyperlinked to their introduction point (some viewers make it more obvious than others by displaying a preview of the target of a link inside a document).
 
 \subsection{Aesthetical changes and external links}
 
 \AP""Knowledges@@concept"" are the key concept in the "knowledge@@package" 
 package. Essentially, a "knowledge@@concept" corresponds to a concept used in 
 the document. To invoke a "knowledge@@concept" named ``tomato'', one simply has 
-to write \verb|\kl{tomato}| (or simply
+to write \spverb|\kl{tomato}| (or simply
 \knowledgeconfigure{quotation=false}%
-\verb|"tomato"|%
-\knowledgeconfigure{quotation=true}%
+\spverb|"tomato"|%
+\knowledgeconfigure{quotation=true}
 if the 'quotation' 
 configuration is enabled) in their document. At compilation, this will 
 print the text ``tomato'' and apply (aesthetical or semantical) changes that
@@ -130,25 +156,25 @@ are associated with the "knowledge@@concept" ``tomato''.
 
 To specify what modifications should be performed on a "knowledge@@concept", 
 you must define it, either in the beginning of your document or in an external file (in \texttt{notions.tex} in this example) included in your preamble.
-The basic syntax to do so is
+The basic syntax to do so is:
 \begin{verbatim}
     \knowledge{}
      | tomato
 \end{verbatim}
-\AP""Directives"" can be written between the pair of brackets. A complete list of "directives" can be found in §5.3 of the "knowledge@@package" "documentation". Most basic example include:
+\AP""Directives"" can be written between the pair of brackets. A complete list of "directives" can be found in \href{https://texlive.mycozy.space/macros/latex/contrib/knowledge/knowledge.pdf#subsection.5.3}{§5.3} of the "knowledge@@package" "documentation". Common "directives" include:
 \begin{itemize}
-    \item \verb|url=<LINK>| to add an external hyperlink;
-    \item \verb|color=<COLOR>| to change the color of the "knowledge@@concept";
-    \item \verb|italic| and \verb|up| to force/unforce italic;
-    \item \verb|boldface| and \verb|md| to force/unforce boldface;
-    \item \verb|smallcaps| to force small capitals;
-    \item \verb|underline| to underline;
-    \item \verb|lowercase| and \verb|uppercase| to render the text in lowercase or uppercase;
-    \item \verb|typewriter| to render the text in typewriter.
-    \item \verb|text=<TEXT>| to change the text that is displayed.
+    \item \spverb|url=<LINK>| to add an external hyperlink;
+    \item \spverb|color=<COLOR>| to change the color of the "knowledge@@concept";
+    \item \spverb|italic| and \spverb|up| to force/unforce italic;
+    \item \spverb|boldface| and \spverb|md| to force/unforce boldface;
+    \item \spverb|smallcaps| to force small capitals;
+    \item \spverb|underline| to underline;
+    \item \spverb|lowercase| and \spverb|uppercase| to render the text in lowercase or uppercase;
+    \item \spverb|typewriter| to render the text in typewriter;
+    \item \spverb|text=<TEXT>| to change the text that is displayed.
 \end{itemize}
 
-You will often want to define synonyms, i.e. to have multiple names associated to a single "knowledge@@concept": for instance you might want ``tomatoes'', ``Tomato'' and  ``Tomatoes'' to all refer to the same "knowledge@@concept" as ``tomato''. This can be achieved by defining each synonym on a new line, precedeed by a pipe. For example
+You will often want to define synonyms, i.e. to have multiple names associated to a single "knowledge@@concept": for instance you might want ``tomatoes'', ``Tomato'' and  ``Tomatoes'' to all refer to the same "knowledge@@concept" as ``tomato''. This can be achieved by defining each synonym on a new line, precedeed by a pipe. For example:
 \begin{verbatim}
     \knowledge{url={https://en.wikipedia.org/wiki/Tomato},
         color=purple, boldface}
@@ -157,9 +183,9 @@ You will often want to define synonyms, i.e. to have multiple names associated t
      | Tomato
      | Tomatoes
 \end{verbatim}
-will produce the following result when one writes \verb|\kl{Tomatoes}| or
+will produce the following result when one writes \spverb|\kl{Tomatoes}| or
 \knowledgeconfigure{quotation=false}%
-\verb|"Tomatoes"|%
+\spverb|"Tomatoes"|%
 \knowledgeconfigure{quotation=true}:%
 \begin{quote}
     "Tomatoes"
@@ -170,27 +196,27 @@ namely it will write the text ``Tomatoes'' in bold, purple, and insert a link to
 \subsection{Internal hyperlinks: the "notion" directive}
 
 The ""notion"" "directive" allows you to easily introduce internal hyperlinks.
-Say that you have defined a "knowledge@@concept"
+Say that you have defined a "knowledge@@concept":
 \begin{verbatim}
     \knowledge{notion, <OTHER_DIRECTIVES>}
      | name
      | synonym
 \end{verbatim}
-By writting \verb|\intro{name}| (or
-\verb|\intro{synonym}|, or 
+By writing \spverb|\intro{name}| (or
+\spverb|\intro{synonym}|, or 
 \knowledgeconfigure{quotation=false}%
-\verb|""name""|, or \verb|""synonym""|%
+\spverb|""name""|, or \spverb|""synonym""|%
 \knowledgeconfigure{quotation=true}%,
 ) you will \AP""introduce"" your knowledge. Then, whenever you will write
-\verb|\kl{name}| (or
-\verb|\kl{synonym}|, or 
+\spverb|\kl{name}| (or
+\spverb|\kl{synonym}|, or 
 \knowledgeconfigure{quotation=false}%
-\verb|"name"|, or \verb|"synonym"|)%
+\spverb|"name"|, or \spverb|"synonym"|)%
 \knowledgeconfigure{quotation=true}
 "knowledge@@package" will add an internal hyperlink to the place where
 your "notion" was "introduced". The default behaviour\footnote{Inherited from
 "hyperref".} is to add a link to the beginning of the section in which the "notion" was introduced. Since this is very often unsatisfying, the command
-\verb|\AP| allows you to define custom \AP""anchor points"", depicted as 
+\spverb|\AP| allows you to define custom \AP""anchor points"", depicted as 
 small red corners in the left margin of your document when you are in "composition mode".
 Internal hyperlinks 
 will refer to the last anchor point preceding the "introduction" of your 
@@ -198,14 +224,14 @@ will refer to the last anchor point preceding the "introduction" of your
 
 By default, "notions" appear in blue, and "introduction" of "notions"
 appear in dark blue and italics.
-Note that a single "notion" should only be introduced once (even if you have synonyms). Should you want to reintroduce an already introduced "notion", 
-you can use the \verb|\reinto{...}| command.
+Note that a single "notion" should only be introduced once---even if you have synonyms. Should you want to reintroduce an already introduced "notion", 
+you can use the \spverb|\reinto{...}| command.
 
 \subsection{Scopes and extended syntax}
 
 Sometimes the same piece of text can refer to different concepts: for example, in this document, ``knowledge'' refers both to the "knowledge@@package" package
 and to the concept of "knowledges@@concept". In this case, \AP""scopes"" allow 
-you to distinguish these concepts, by defining the two "knowledges@@concept"
+you to distinguish these concepts, by defining the two "knowledges@@concept":
 \begin{verbatim}
     \knowledge{url={https://ctan.org/pkg/knowledge}, typewriter}
      | knowledge@package
@@ -213,7 +239,7 @@ you to distinguish these concepts, by defining the two "knowledges@@concept"
     \knowledge{notion}
      | knowledge@concept
 \end{verbatim}
-To invoke one or the other, you can write
+To invoke one or the other, you can write:
 \knowledgeconfigure{quotation=false}%
 \begin{verbatim}
     "knowledge@@scope"
@@ -221,12 +247,12 @@ To invoke one or the other, you can write
     \kl(scope){knowledge}
 \end{verbatim}
 \knowledgeconfigure{quotation}%
-where \verb|scope| is either \verb|package| or
-\verb|concept|.
-More informations on "scopes" can be found in §3.5 of the "documentation".
+where \spverb|scope| is either \spverb|package| or
+\spverb|concept|.
+More informations on "scopes" can be found in \href{https://ctan.mines-albi.fr/macros/latex/contrib/knowledge/knowledge.pdf#subsection.3.5}{§3.5} of the "documentation".
 
 Finally, if you want to display some ``text'' that behaves
-like some "knowledge@@concept" named ``name'', you can write
+like some "knowledge@@concept" named ``name'', you can write:
 \knowledgeconfigure{quotation=false}%
 \begin{verbatim}
     "text@name"
@@ -236,13 +262,13 @@ like some "knowledge@@concept" named ``name'', you can write
 \knowledgeconfigure{quotation}%
 This is useful when you do not want ``text'' to be a synonym
 of ``name'' throughout the paper but only locally.
-For instance,
+For instance:
 \knowledgeconfigure{quotation=false}%
 \begin{verbatim}
     (...) "These vegetables@tomato" are (...)
 \end{verbatim}
 \knowledgeconfigure{quotation}%
-produces 
+produces:
 \begin{quote}
     (...) "These vegetables@tomato" are (...)
 \end{quote}
@@ -254,16 +280,15 @@ string ``These vegetables''.
 
 
 The previous sections can mostly be applied to mathematical commands:
-for instance 
 \begin{verbatim}
     $\kl[tomato]{\Pi^P_2}$
 \end{verbatim}
 will produce $\kl[tomato]{\Pi^P_2}$. However, as a rule of thumb,
 this should be avoided as there is a more elegant syntax for 
-knowledgyfied mathematical commands. It is recommanded to
+knowledgyfied mathematical commands. It is recommended to
 use semantic macros instead of syntactic ones: for example,
-instead of defining a macro \verb|\Ac| that displays $\mathcal{A}$, 
-define \verb|\automata| or \verb|\algebra|.
+instead of defining a macro \spverb|\Ac| that displays $\mathcal{A}$, 
+define \spverb|\automata| or \spverb|\algebra|.
 
 The basic syntax to define a new mathematical command is:
 \begin{verbatim}
@@ -271,66 +296,67 @@ The basic syntax to define a new mathematical command is:
         <YOUR_MACRO>
     }}
 \end{verbatim}
-for example
+For example:
 \begin{verbatim}
     \knowledgenewrobustcmd\automata{\cmdkl{
         \mathcal{A}
     }}
 \end{verbatim}
-defines a macro named \verb|\automata| that prints an `$\mathcal{A}$' and 
-defines a "notion" named \verb|\automata|.
-Using the command \verb|\automata| (e.g: $\automata$) will result in
+defines a macro named \spverb|\automata| that prints an `$\mathcal{A}$' and 
+defines a "notion" named \spverb|\automata|.
+Using the command \spverb|\automata| (e.g: $\automata$) will result in
 "knowledge@@package" automatically inserting a link to the last "anchor point"
-preceding the introduction of the "notion" \verb|\automata|.
-This notion can be introduced by writting
+preceding the introduction of the "notion" \spverb|\automata|.
+This notion can be introduced by writing:
 \begin{verbatim}
     \intro*\automata
 \end{verbatim}
 which produces the following result: $\AP\intro*\automata$.
 
-The \verb|\cmdkl| command allows you to control which part of the macro will be
-knowledgyfied/cliquable. For instance, if you define the macro
+The \spverb|\cmdkl| command allows you to control which part of the macro will be
+knowledgyfied/clickable. For instance, if you define the macro:
 \AP\phantomintro{\interval}
 \begin{verbatim}
     \knowledgenewrobustcmd\interval[2]{
         \cmdkl{[} #1, #2 \cmdkl{]}
     }
 \end{verbatim}
-then \verb|$\interval{a}{b}$| will produce $\interval{a}{b}$: only the two
-brackets will be cliquable.
+then \spverb|$\interval{a}{b}$| will produce $\interval{a}{b}$: only the two
+brackets will be clickable.
 
 
 \section{Knowledge-Clustering}
+\label{sec:knowledge-clustering}
 
 \subsection{Goal}
 
 "Knowledge-clustering" is a command-line tool that aims to automate part of
-the process of writting a document with "knowledge@@package".
-As of today, "knowledge\-clustering" has to main features:
+the process of writing a document with "knowledge@@package".
+As of today, "knowledge\-clustering" has two main features:
 \begin{itemize}
     \item the "clustering" feature, which automates the definitions
     of synonyms. For example,  if at some point you already defined the 
-    "knowledge@@concept" \verb|tomato| and write in your document
+    "knowledge@@concept" \spverb|tomato| and write in your document
     \knowledgeconfigure{quotation=false}%
-    \verb|"Tomatoes"|
+    \spverb|"Tomatoes"|
     \knowledgeconfigure{quotation}%
     then, at compilation, "latex" will rightfully produce a warning,
-    saying that the knowledge \verb|Tomatoes| is undefined.
-    At this point, you should run "knowledge-clustering", which will propose to 
-    you to define \verb|Tomatoes| as a synonym of \verb|tomato|.
+    saying that the knowledge \spverb|Tomatoes| is undefined.
+    At this point, you should run "knowledge-clustering", which will suggest to 
+    you to define \spverb|Tomatoes| as a synonym of \spverb|tomato|.
     \item the "add quotes" feature, that can be used at the very end of your 
-    writting process, to check if every piece of text that is defined as
+    writing process, to check if every piece of text that is defined as
     a "knowledge@@concept" is surronded by quotes. For example, this feature 
     \knowledgeconfigure{quotation=false}%
-    would suggest to replace the string \verb|Let $x$ be a tomato such that (…)|
-    in you \verb|.tex| file by \verb|Let $x$ be a "tomato" such that (…)|.
+    would suggest to replace the string \spverb|Let $x$ be a tomato such that (…)|
+    in you \spverb|.tex| file by \spverb|Let $x$ be a "tomato" such that (…)|.
     \knowledgeconfigure{quotation}%
 \end{itemize}
 
 \subsection{Installation}
 
 To install "knowledge-clustering", you need to have a machine with
-\verb|python3| and \verb|pip3|. To install, or upgrade, "knowledge-clustering",
+\spverb|python3| and \spverb|pip3|. To install, or upgrade, "knowledge-clustering",
 you can simply run
 \begin{verbatim}
     pip3 install --upgrade knowledge-clustering
@@ -340,14 +366,14 @@ Then, you should run
 \begin{verbatim}
     knowledge init
 \end{verbatim}
-to download some data, used by the "clustering" algorithm\footnote{This 
+to download some data (roughly 35Mb), used by the "clustering" algorithm\footnote{This 
 downloads some data used by "NLTK", a natural language package used by 
 "knowledge@@package".}.
 
 \paragraph{Autocomplete}
-If the autocomplete of the command \verb|knowledge| does not work,
+If the autocomplete of the command \spverb|knowledge| does not work,
 you can follow the following procedure:
-if you are using \verb|zsh| (resp. \verb|bash|), then add
+if you are using \spverb|zsh| (resp. \spverb|bash|), then add
 \knowledgeconfigure{quotation=false}%
 \begin{verbatim}
     eval "`pip completion --zsh`"
@@ -357,24 +383,24 @@ or
     eval "`pip completion --bash`"
 \end{verbatim}
 \knowledgeconfigure{quotation}%
-in your \verb|.zshrc| file (resp. \verb|.bashrc|).
-For the change to take effect, you either need to launch a new terminal,
-or run \verb|source ~/.zshrc| (resp. \verb|source ~/.bashrc|).
+in your \spverb|.zshrc| file (resp. \spverb|.bashrc|).
+For the change to take effect, you either need to launch a new terminal
+or run \spverb|source ~/.zshrc| (resp. \spverb|source ~/.bashrc|).
 
 \subsection{Clustering knowledges}
 
 \subsubsection{Basic use}
 
 The \AP""clustering"" feature is meant to be used
-when you are writing you "latex" document with "knowledge@@package".
-Maintaining the list of all the "knowledges@@concept" you're using
+when you are writing your "latex" document with "knowledge@@package".
+Maintaining the list of all the "knowledges@@concept" you are using
 can be burdersome, so usually you will write your "latex" code
 and use, in this code, some "knowledges@@concept" that are yet to be
 defined.
 
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=.9\textwidth]{img/small-before.png}
+    \includegraphics[width=.95\textwidth]{img/small-before.png}
     \caption{%
         \label{fig:clustering-before}
         Content of the file containing the defined "knowledges@@concept"
@@ -386,32 +412,32 @@ defined.
 
 For example, \Cref{fig:clustering-before} illustrates the following situation:
 in the file containing all your defined "knowledges@@concept", you have
-four "knowledges@@concept", one of which is ``\verb|word|''.
-In your main \verb|.tex| file---which is not reproduced here---, you used some 
-undefined "knowledges@@concept", such as ``\verb|words|'' and
-``\verb|semigroup|''.
+four "knowledges@@concept", one of which is ``\spverb|word|''.
+In your main \spverb|.tex| file---which is not reproduced here---, you used some 
+undefined "knowledges@@concept", such as ``\spverb|words|'' and
+``\spverb|semigroup|''.
 At compilation, "latex" will produce a warning, saying that you have undefined
-"knowledges@@concept", and write in a \verb|.diagnose| file a list
+"knowledges@@concept" and write in a \spverb|.diagnose| file a list
 of these undefined "knowledges@@concept".
 
-At this point, you have two options: you can either define every undefined "knowledge@@concept", by hand, and say that ``\verb|words|'' is a synonym of
-``\verb|word|'' while ``\verb|semigroup|'' is a new "knowledge@@concept".
+At this point, you have two options: you can either define every undefined "knowledge@@concept", by hand, and say that ``\spverb|words|'' is a synonym of
+``\spverb|word|'' while ``\spverb|semigroup|'' is a new "knowledge@@concept".
 Or, you can use the "clustering" feature of "knowledge-clustering": feed
-it both files (the file \verb|small.tex| containing the defined 
+it both files (the file \spverb|small.tex| containing the defined 
 "knowledges@@concept" and
-the \verb|small.diagnose| file containing the undefined "knowledges@@concept")
+the \spverb|small.diagnose| file containing the undefined "knowledges@@concept")
 by running the command
 \begin{verbatim}
     knowledge cluster -n small.tex -d small.diagnose
 \end{verbatim}
-which will write suggestions in your file \verb|small.tex|,
+which will write suggestions in your file \spverb|small.tex|,
 as depicted in \Cref{fig:clustering-after}. These suggestions
 take the form of comments: if you agree with the suggestion, you can just
-uncomment the line, and otherwise, you should move it, by hand.
+uncomment the line and otherwise, you should move it, by hand.
 
 \begin{figure}[htb]
     \centering
-    \includegraphics[width=.9\textwidth]{img/small-after.png}
+    \includegraphics[width=.95\textwidth]{img/small-after.png}
     \caption{%
         \label{fig:clustering-after}
         After running "knowledge-clustering", the \texttt{small.diagnose} file
@@ -423,25 +449,25 @@ uncomment the line, and otherwise, you should move it, by hand.
 
 \subsubsection{Advanced features}
 
-To display the help, you can run \verb|knowledge cluster --help|.
+To display the help, you can run \spverb|knowledge cluster --help|.
 
 \paragraph{Language} The "clustering" algorithm relies on natural language 
 processing and is language-specific. As of today, only two languages
 are supported: english (which is the default language) and french.
 To use "knowledge-clustering" on a document written in french,
-simply add \verb|-l fr| or \verb|--lang fr| at the end of your command.
+simply add \spverb|-l fr| or \spverb|--lang fr| at the end of your command.
 
 
 \paragraph{Scopes} In the example of
 \Cref{fig:clustering-before,fig:clustering-after}
-you can see that "knowledge-cluste\-ring" infered that the
-scope ``ord'' meant ``countable ordinals''\footnote{This was infered
-by reading the \texttt{small.tex} file, and was used to cluster
+you can see that "knowledge-cluste\-ring" inferred that the
+scope ``ord'' meant ``countable ordinals''\footnote{This was inferred
+by reading the \texttt{small.tex} file and was used to cluster
 the "knowledge@@concept" ``countable ordinal word'' with ``word@ord''.}.
-If you want the list of scopes it saw,
-and of their infered meaning, you can use the \verb|-S| or \verb|--scope| 
+If you want the list of scopes it saw
+and their inferred meaning, you can use the \spverb|-S| or \spverb|--scope| 
 option. 
-For instance, running
+For instance, running:
 \begin{verbatim}
     knowledge cluster -n small.tex -d small.diagnose --scope
 \end{verbatim}
@@ -456,8 +482,8 @@ will print in your prompt
 
 
 The "add quotes" feature is meant to be used when your document is (nearly)
-finished and you want to check that you have not forgotten ``quotes'' symbols
-(or a \verb|kl{}| command) before and after defined "knowledges@@concept".
+finished and you want to check that you have not forgotten quotes symbols
+(or a \spverb|kl{}| command) before and after defined "knowledges@@concept".
 
 The basic syntax is the following:
 \begin{verbatim}
@@ -465,8 +491,8 @@ The basic syntax is the following:
 \end{verbatim}
 where:
 \begin{itemize}
-    \item \texttt{<TEX\_FILE>} is the \verb|.tex| file containing your "latex"
-    document :
+    \item \texttt{<TEX\_FILE>} is the \spverb|.tex| file containing your "latex"
+    document;
     \item \texttt{<NOTION\_FILE>} is the file containing the
     "knowledges@@concept" you have defined.
 \end{itemize}
@@ -477,23 +503,25 @@ Then, your prompt will display something like
 \end{verbatim}
 Depending on your answer, the "add quotes" feature will add a quote
 \knowledgeconfigure{quotation=false}%
-\verb|"| before, and a quote \verb|"| after 
+\spverb|"| before, and a quote \spverb|"| after 
 \knowledgeconfigure{quotation}%
 the piece of text ``blabla'' found at line 41.
 
-The only available option is \verb|-F| or \verb|--force| to add
+The only available option is \spverb|-F| or \spverb|--force| to add
 quote symbols around every match. It is \textbf{highly discouraged}
-to use this feature. 
+to use this option. 
 
 \subsection{Contributing to "knowledge-clustering"}
 
 If you have bugs to report or suggestions, you can submit a
 \href{https://github.com/remimorvan/knowledge-clustering/issues}{new issue},
-or a new pull request on github, or get in touch by email with
+or a \href{https://github.com/remimorvan/knowledge-examples/pulls}{new pull} 
+request on \href{https://github.com/remimorvan/knowledge-examples}{github}, or get in touch by email with
 one of the maintainers.
 
 
 \section{Advanced features}
+\label{sec:advanced-features}
 
 This section is dedicated on more advanced features of "knowledge@@package".
 
