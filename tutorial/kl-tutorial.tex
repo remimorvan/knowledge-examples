@@ -306,7 +306,7 @@ brackets will be cliquable.
 
 "Knowledge-clustering" is a command-line tool that aims to automate part of
 the process of writting a document with "knowledge@@package".
-As of today, "knowledge-clustering" has to main features:
+As of today, "knowledge\-clustering" has to main features:
 \begin{itemize}
     \item the "clustering" feature, which automates the definitions
     of synonyms. For example,  if at some point you already defined the 
@@ -459,7 +459,43 @@ The "add quotes" feature is meant to be used when your document is (nearly)
 finished and you want to check that you have not forgotten ``quotes'' symbols
 (or a \verb|kl{}| command) before and after defined "knowledges@@concept".
 
+The basic syntax is the following:
+\begin{verbatim}
+    knowledge addquotes -t <TEX_FILE> -n <NOTION_FILE> 
+\end{verbatim}
+where:
+\begin{itemize}
+    \item \texttt{<TEX\_FILE>} is the \verb|.tex| file containing your "latex"
+    document :
+    \item \texttt{<NOTION\_FILE>} is the file containing the
+    "knowledges@@concept" you have defined.
+\end{itemize}
+Then, your prompt will display something like
+\begin{verbatim}
+    Found a match for `blabla` at line 41.
+    Add quotes? [y/n]
+\end{verbatim}
+Depending on your answer, the "add quotes" feature will add a quote
+\knowledgeconfigure{quotation=false}%
+\verb|"| before, and a quote \verb|"| after 
+\knowledgeconfigure{quotation}%
+the piece of text ``blabla'' found at line 41.
+
+The only available option is \verb|-F| or \verb|--force| to add
+quote symbols around every match. It is \textbf{highly discouraged}
+to use this feature. 
+
+\subsection{Contributing to "knowledge-clustering"}
+
+If you have bugs to report or suggestions, you can submit a
+\href{https://github.com/remimorvan/knowledge-clustering/issues}{new issue},
+or a new pull request on github, or get in touch by email with
+one of the maintainers.
+
+
 \section{Advanced features}
+
+This section is dedicated on more advanced features of "knowledge@@package".
 
 \subsection{Weird spacing for math commands}
 
