@@ -3,3 +3,14 @@
 \knowledgenewrobustcmd\interval[2]{
     \cmdkl{[} #1, #2 \cmdkl{]}
 }
+
+\newrobustcmd{\myrelation}{\mathrel{\mathcal{R}}}
+\knowledgenewrobustcmd{\myklrelation}{\mathrel{\cmdkl{\mathcal{R}}}}
+\newrobustcmd\mynewklrelation{%
+\mathrel{%
+    \withkl{\kl[\mynewklrelation]}{%
+        \cmdkl{\mathcal{R}}
+    }%
+}%
+}
+\knowledge{\mynewklrelation}{notion}

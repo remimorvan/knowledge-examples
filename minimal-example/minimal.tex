@@ -51,54 +51,73 @@
 \input{notions}
 
 
-
-\title{Minimal example for the \texttt{knowledge} package}
+\title{Minimal example for the "knowledge" package}
 \date{}
+\author{}
+
+
 \begin{document}
+
 \maketitle
+
+
 \begin{abstract}
-\AP This document provides an elementary example of the "knowledge package" for "latex" and can be used as a starting point for creating one's own document.
+  This document provides an elementary example of the "knowledge package" for "latex" and can be used as a starting point for creating one's own document.
 \end{abstract}
 
-Blabla paper mode
-\kl{paper mode}
 
 \section{Introduction}
 \label{section:introduction}
 
-The package ""knowledge@@package"" is a package for "latex" that helps associating information to terms. This can be used for:
+The package \AP""knowledge@@package"" is a package for "latex" that helps 
+associating information to terms. This can be used for:
 \begin{itemize}
-\item managing external urls, for instance separating the file containing  the addresses from their use,
-\item managing internal references's such as linking every use of a concept to the place of its introduction (in particular avoiding the use of labels),
-\item managing the index in a centralized way,
-\item replacing some macros for configuring the display.
+	\item managing external urls, for instance separating the file containing  
+    	the addresses from their use,
+	\item managing internal references's such as linking every use of a concept 
+    	to the place of its introduction (in particular avoiding the use of labels),
+	\item managing the index in a centralized way,
+	\item replacing some macros for configuring the display.
 \end{itemize}
-Primarily, the goal of the "knowledge@@package" is for the production of scientific documents (the longer, the more interesting, such as a thesis or a book) in order to improve their readability on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware. Some capabilities (link handling the index) are not related to this purpose in particular.
+
+Primarily, the goal of the "knowledge@@package" is for the production of 
+scientific documents (the longer, the more interesting, such as a thesis or a 
+book) in order to improve their readability on electronic devices. Ultimately, 
+the goal is to produce documents that are more semantic-aware. Some 
+capabilities (link handling the index) are not related to this purpose in 
+particular.
 
 \section{Example running}
 \label{section:example}
-Try compiling this document (two compilation phases to have proper links) using "pdflatex", and see how some notions are hyperlinked to their introduction point (some viewers make it more obvious than others by displaying a preview of the target of a link inside a document; since there is only one page in this example, this may be worth zooming in this case).
-\AP When the "paper mode" is not active, links are clearly identified in blue. Try then compiling it in ""paper mode"" (an option of the "knowledge package"); it now looks like a regular paper (but the links are still there). In ""electronic mode"",
-the links are still colored, but some other hints disappear like "anchor points".
 
-% \AP provides an anchor point: this will be the precise target of the hyperlink.
-% It is good practice to use is at the beginning of every paragraph that contains
-% \intro commands. If 'final=false', then these anchor points appear as a small
-% corner (red with xcolor).
+Try compiling this document (two compilation phases to have proper links) using 
+"pdflatex", and see how some notions are hyperlinked to their introduction 
+point (some viewers make it more obvious than others by displaying a preview of 
+the target of a link inside a document; since there is only one page in this 
+example, this may be worth zooming in this case).
+When the "paper mode" is not active, links are clearly identified in blue. Try 
+then compiling it in \AP""paper mode"" (an option of the "knowledge package"); 
+it now looks like a regular paper (but the links are still there).
+In \AP""electronic mode"", the links are still colored,
+but some other hints disappear like "anchor points".
 
 
 \knowledgeconfigure{quotation=false}% temporarily disables the " notation
-\AP While writing a document, the two syntaxes \verb|"text"| and \verb|""text""| should be used each time some important concept is used or introduced respectively in the paper. For instance:
-\begin{quote}
-\verb|Define a ""group"" to be a "monoid" such that...|
-\end{quote}
-The `@' symbol allows some flexibility by having a displayed text different from the target:
-\begin{quote}
-\verb|"This kind of algebras@solvable groups"...|
-\end{quote}
+	\AP While writing a document, the two syntaxes \verb|"text"| and
+	\verb|""text""| should be used each time some important concept is used or 
+	introduced respectively in the paper. For instance:
+	\begin{quote}
+	\verb|Define a ""group"" to be a "monoid" such that...|
+	\end{quote}
+	The `@' symbol allows some flexibility by having a displayed text different 
+	from the target:
+	\begin{quote}
+	\verb|"This kind of algebras@solvable groups"...|
+	\end{quote}
 \knowledgeconfigure{quotation}
 
 \AP These concepts are referred to as ""knowledges"". "Knowledges" are to be defined (in general in the preamble of the document) using a command of the form:
+
 \begin{verbatim}
   \knowledge{directives}
     | name
@@ -106,9 +125,20 @@ The `@' symbol allows some flexibility by having a displayed text different from
     | synonym2
     | ...
 \end{verbatim}
-However, using undefined "knowledges" will not cause compile time errors, but be displayed as in the following `"unknown knowledge"' (i.e. in non-"paper mode" in brown, but in regular black in "paper mode" or "electronic mode"). \AP The ""diagnose file"" (that ends with a \texttt{.diagnose} extension) contains detailed information about these warnings, and should be read often when finalizing the document.
 
-\AP Small red corners called ""anchor points"" are visible in the margin, and represent the precise location in a pdf document where an internal link jumps. These are introduced
-using the \texttt{\detokenize{\AP}}command, commonly at the beginning of each paragraph that introduce some concept, or even in the middle of the paragraph. The "anchor points" become invisible in "paper@paper mode" or "electronic mode".
+However, using undefined "knowledges" will not cause compile time errors, 
+but be displayed as in the following `"unknown knowledge"' (i.e. in 
+non-"paper mode" in brown, but in regular black in "paper mode" or 
+"electronic mode").
+The \AP""diagnose file"" (that ends with a \texttt{.diagnose} extension) 
+contains detailed information about these warnings, and should be read 
+often when finalizing the document.
+
+Small red corners called \AP""anchor points"" are visible in the margin, and 
+represent the precise location in a pdf document where an internal link jumps. 
+These are introduced
+using the \texttt{\detokenize{\AP}}command, commonly at the beginning of each 
+paragraph that introduce some concept, or even in the middle of the paragraph. 
+The "anchor points" become invisible in "paper@paper mode" or "electronic mode".
 
 \end{document}

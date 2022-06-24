@@ -3,54 +3,53 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-% If the output is a PDF (avoids some display problems, in particular in arXiv).
-\pdfoutput = 1
-
-
-% This is the file kl-minimal.tex.
-% It can be used as a starting point for creating a document using the _knowledge_ package.
-%
-% The documentation of the _knowledge_ package can be found:
-% - in your tex distribution, using the command
-%        texdoc knowledge
-% - or at the address
-%.       https://ctan.org/pkg/knowledge
-%
-%
-% Loading other packages before knowledge activates features.
-% The most common use of knowledge makes use of hyperref and xcolor:
 \usepackage[breaklinks]{hyperref} 
 \usepackage{cleveref} 
 \usepackage{xcolor} 
-%
-% The package 'knowledge' has now to be loaded.
-% The options 
-%      'paper', 'electronic' or 'composition' (default)
-% can be used. These activates different rendering styles:
-% - 'paper' produce a paper to be printed:
-%   text in black and white
-% - 'electronic' highlights links using colors:
-%   for being read on an electronic device
-% - 'composition' (or default) highlights missing knowledges as
-%   well as gives other pieces of information. It should always
-%   be used but when the paper is ready.
-%
-\usepackage{knowledge} % default
-%\usepackage[electronic]{knowledge} % final version to be read electronically
-%\usepackage[paper]{knowledge} % final version in black and white for printing
 
-% The 'notion' configuration is commonly used for scientific papers.
-% The 'quotation' configuration is commonly used and triggers the "..." notation.
+\usepackage[electronic]{knowledge}
 \knowledgeconfigure{notion, quotation}
 
-% It is convenient to provide a list of knowledges in an external file.
 \input{notions}
-% It is convenient to provide a list of macros in an external file.
 \input{macros}
 
+%%% Custom colors for links
+
+\definecolor{Midnight Green Eagle}{HTML}{005566}
+\definecolor{Gamboge}{HTML}{ee9b00}
+\definecolor{Ruby Red}{HTML}{9b2226}
+
+\IfKnowledgePaperModeTF{
+    %
+}{
+    % If we are NOT in paper mode (i.e. in composition mode or electronic mode)
+    \knowledgestyle{intro notion}{color={Ruby Red}}
+    \knowledgestyle{notion}{color={Midnight Green Eagle}}
+    \hypersetup{
+        colorlinks=true,
+        breaklinks=true,
+        linkcolor={Midnight Green Eagle}, % Links to sections, pages, etc.
+        citecolor={Midnight Green Eagle}, % Links to bibliography
+        filecolor={Midnight Green Eagle}, % Links to local file
+        urlcolor={Midnight Green Eagle},
+    }
+}
+\IfKnowledgeCompositionModeTF{
+    % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
+    \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
+    \knowledgestyle{intro unknown}{color={Gamboge}, emphasize}
+    \knowledgestyle{intro unknown cont}{color={Gamboge}, emphasize}
+    \knowledgestyle{kl unknown}{color={Gamboge}}
+    \knowledgestyle{kl unknown cont}{color={Gamboge}}
+}{
+    %
+}
+
+%%% Other packages 
 
 \usepackage{graphicx}
 \usepackage{spverbatim}
+\usepackage{ulem}
 
 
 \title{A tutorial for the "knowledge@@package" package}
@@ -177,7 +176,7 @@ The basic syntax to do so is:
 You will often want to define synonyms, i.e. to have multiple names associated to a single "knowledge@@concept": for instance you might want ``tomatoes'', ``Tomato'' and  ``Tomatoes'' to all refer to the same "knowledge@@concept" as ``tomato''. This can be achieved by defining each synonym on a new line, precedeed by a pipe. For example:
 \begin{verbatim}
     \knowledge{url={https://en.wikipedia.org/wiki/Tomato},
-        color=purple, boldface}
+        color=olive, boldface}
      | tomato
      | tomatoes
      | Tomato
@@ -190,7 +189,7 @@ will produce the following result when one writes \spverb|\kl{Tomatoes}| or
 \begin{quote}
     "Tomatoes"
 \end{quote}
-namely it will write the text ``Tomatoes'' in bold, purple, and insert a link to the Wikipedia page named ``Tomato''.
+namely it will write the text ``Tomatoes'' in bold, olive, and insert a link to the Wikipedia page named ``Tomato''.
 
 
 \subsection{Internal hyperlinks: the "notion" directive}
@@ -217,15 +216,17 @@ By writing \spverb|\intro{name}| (or
 your "notion" was "introduced". The default behaviour\footnote{Inherited from
 "hyperref".} is to add a link to the beginning of the section in which the "notion" was introduced. Since this is very often unsatisfying, the command
 \spverb|\AP| allows you to define custom \AP""anchor points"", depicted as 
-small red corners in the left margin of your document when you are in "composition mode".
-Internal hyperlinks 
-will refer to the last anchor point preceding the "introduction" of your 
-"notion".
+small red corners in the left margin of your document when you are in 
+"composition mode"\footnote{This document was compiled in "electronic mode" so
+the "anchor points" are not shown. However, you can observe "anchor points" in 
+the \href{https://github.com/remimorvan/knowledge-examples/tree/main/minimal-example}{minimal example}.}. Internal hyperlinks will refer to the last 
+anchor point preceding the "introduction" of your "notion".
+
 
 By default, "notions" appear in blue, and "introduction" of "notions"
 appear in dark blue and italics.
 Note that a single "notion" should only be introduced once---even if you have synonyms. Should you want to reintroduce an already introduced "notion", 
-you can use the \spverb|\reinto{...}| command.
+you can use the \spverb|\reintro{...}| command.
 
 \subsection{Scopes and extended syntax}
 
@@ -277,6 +278,7 @@ string ``These vegetables''.
 
 
 \subsection{Mathematical commands}
+\label{sec:math-commands}
 
 
 The previous sections can mostly be applied to mathematical commands:
@@ -525,12 +527,129 @@ one of the maintainers.
 
 This section is dedicated on more advanced features of "knowledge@@package".
 
-\subsection{Weird spacing for math commands}
-
-\subsection{Disabling commands}
-
 \subsection{Changing the default colors}
 
+By default, "knowledge@@package" will print notions in blue and
+introductions of notions in dark blue if the document is compiled
+in "composition mode" or "electronic mode", but the external hyperlinks
+will still be printed in black. Moreover, if it is in
+"composition mode", undefined "knowledges@@concept" will appear in yellow,
+and anchor points in red.
 
+Unfortunately, the default colors are \sout{ugly} not maximizing the aesthetical potential of your "latex" document.
+Using \verb|\knowledgestyle| (\href{https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.3.4}{§3.3.4} of the "documentation"), you can customise these colors. Moreover,
+\verb|\hypersetup| from the "hyperref" package lets you change the colors of
+external hyperlinks. Finaly, using
+\begin{verbatim}
+    \knowledgeconfigure{anchor point color={…}}
+\end{verbatim}
+lets detailed-oriented users change the color of "anchors points".
+However, you want some of these changes to only take effect when you are in
+"paper mode", "electronic mode" or "composition mode"\footnote{Fun fact:
+the "paper mode" is used by \href{https://www.dagstuhl.de/en/publications/lipics}{LIPIcs} when compiling proceedings. Should you decide
+to color your links even in "paper mode", you might make Dagstuhl annoyed.}:
+this can be achieved using the commands:
+\begin{verbatim}
+    \IfKnowledgePaperModeTF{…}{…}
+    \IfKnowledgeCompositionModeTF{…}{…}
+\end{verbatim}
+
+For example, this document was produced using the following configuration:
+\begin{spverbatim}
+    \definecolor{Midnight Green Eagle}{HTML}{005566}
+    \definecolor{Gamboge}{HTML}{ee9b00}
+    \definecolor{Ruby Red}{HTML}{9b2226}
+
+    \IfKnowledgePaperModeTF{
+        %
+    }{
+        % If we are NOT in paper mode (i.e. in composition mode or electronic mode)
+        \knowledgestyle{intro notion}{color={Ruby Red}}
+        \knowledgestyle{notion}{color={Midnight Green Eagle}}
+        \hypersetup{
+            colorlinks=true,
+            breaklinks=true,
+            linkcolor={Midnight Green Eagle}, % Links to sections, pages, etc.
+            citecolor={Midnight Green Eagle}, % Links to bibliography
+            filecolor={Midnight Green Eagle}, % Links to local file
+            urlcolor={Midnight Green Eagle},
+        }
+    }
+    \IfKnowledgeCompositionModeTF{
+        % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
+        \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
+        \knowledgestyle{intro unknown}{color={Gamboge}, emphasize}
+        \knowledgestyle{intro unknown cont}{color={Gamboge}, emphasize}
+        \knowledgestyle{kl unknown}{color={Gamboge}}
+        \knowledgestyle{kl unknown cont}{color={Gamboge}}
+    }{
+        %
+    }
+\end{spverbatim}
+
+This produces the following rust: in "composition mode",
+every link (both internal and external) appears in 
+a nice shade of blue, called ``Midnight Green Eagle'', definitions and "anchor 
+points" are displayed in dark red (``Ruby Red''), and unknown 
+"knowledges@@concept" are displayed in dark yellow (``Gamboge'').
+In "electronic mode", everything works the same except that
+"anchor points" are not displayed and unknown "knowledges@@concept" are 
+not highlighted. Finally, in "paper mode", everything is printed in black.
+
+\subsection{Weird spacing in math commands}
+
+Say you want to define a binary relation: without "knowledge@@package"
+you would write something like:
+\begin{verbatim}
+    \newrobustcmd{\myrelation}{%
+        \mathrel{\mathcal{R}}%
+    }
+\end{verbatim}
+which will have the desired behaviour: writting
+\verb|$x \myrelation y$| will produce $x \myrelation y$
+(i.e. the relation symbol is precedeed and followed by spaces),
+and writting \verb|let $\myrelation$ be a relation|
+produces ``let $\myrelation$ be a relation'': everything works as
+expected. Now try to knowledgify this command, by defining it like:
+\begin{verbatim}
+    \knowledgenewrobustcmd{\myklrelation}{%
+        \mathrel{\cmdkl{\mathcal{R}}}%
+    }
+\end{verbatim}
+which will produce $x \myklrelation y$ and ``let $\myklrelation$ be a 
+relation''\footnote{You can observe here a fun phenomenon: if a 
+"knowledge@@concept" is defined but not introduced, it will still be displayed 
+in blue---but it will not be clickable.}. The command does not behave as 
+expected in the second case! This is because of the definition of
+\spverb|\knowledgenewrobustcmd| (see \href{https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.9.1}{§3.9.1} of the "documentation"), which is essentially equivalent to:
+\begin{verbatim}
+    \newrobustcmd\myklrelation{%
+        \withkl{\kl[\myklrelation]}{%
+            \mathrel{\cmdkl{\mathcal{R}}}
+        }
+    }
+    \knowledge{\myklrelation}{notion}
+\end{verbatim}
+To obtain the desired behaviour, one has to change the position
+of the \verb|\mathrel| command like so:
+\begin{verbatim}
+    \newrobustcmd\mynewklrelation{%
+        \mathrel{%
+            \withkl{\kl[\mynewklrelation]}{%
+                \cmdkl{\mathcal{R}}
+            }%
+        }%
+    }
+    \knowledge{\mynewklrelation}{notion}
+\end{verbatim}
+which produces the following result:
+$x \mynewklrelation y$ and ``let $\mynewklrelation$ be a relation''.
+More details can be found in \href{https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.9.2}{§3.9.2} of the "documentation".
+
+\subsection{Other functionalities}
+
+This tutorial is far from being exhaustive: you can take a look at
+the "documentation" to see all the possible wonders "knowledge@@package" has
+to offer, such as \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.8.3}{handling indexes}, \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.9.3}{knowledgifying already-defined commands}, \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.9.3}{defining command behaving diffently depending on whether they are used in text or math mode}, etc. 
 
 \end{document}
