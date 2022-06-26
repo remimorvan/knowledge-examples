@@ -430,7 +430,7 @@ it both files (the file \spverb|small.tex| containing the defined
 the \spverb|small.diagnose| file containing the undefined "knowledges@@concept")
 by running the command
 \begin{verbatim}
-    knowledge cluster -n small.tex -d small.diagnose
+    knowledge cluster -k small.tex -d small.diagnose
 \end{verbatim}
 which will write suggestions in your file \spverb|small.tex|,
 as depicted in \Cref{fig:clustering-after}. These suggestions
@@ -471,7 +471,7 @@ and their inferred meaning, you can use the \spverb|-S| or \spverb|--scope|
 option. 
 For instance, running:
 \begin{verbatim}
-    knowledge cluster -n small.tex -d small.diagnose --scope
+    knowledge cluster -k small.tex -d small.diagnose --scope
 \end{verbatim}
 will print in your prompt
 \begin{verbatim}
@@ -489,7 +489,7 @@ finished and you want to check that you have not forgotten quotes symbols
 
 The basic syntax is the following:
 \begin{verbatim}
-    knowledge addquotes -t <TEX_FILE> -n <NOTION_FILE> 
+    knowledge addquotes -t <TEX_FILE> -k <NOTION_FILE> 
 \end{verbatim}
 where:
 \begin{itemize}
