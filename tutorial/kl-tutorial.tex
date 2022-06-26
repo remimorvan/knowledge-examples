@@ -509,9 +509,17 @@ Depending on your answer, the "add quotes" feature will add a quote
 \knowledgeconfigure{quotation}%
 the piece of text ``blabla'' found at line 41.
 
-The only available option is \spverb|-F| or \spverb|--force| to add
-quote symbols around every match. It is \textbf{highly discouraged}
-to use this option. 
+If you want more precision,
+you can also print the columns (a tabulation counting as 4 columns)
+using the option \spverb|-c| or \spverb|--column|.
+\begin{spverbatim}
+    Found a match for `blabla` between line 41, column 13 and line 41, column 19.
+    Add quotes? [y/n]
+\end{spverbatim}
+
+Finally, the option \spverb|-F| or \spverb|--force| adds
+quote symbols around every match, without asking your consent first.
+It is \textbf{highly discouraged} to use this option. 
 
 \subsection{Contributing to "knowledge-clustering"}
 
