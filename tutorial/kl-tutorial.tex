@@ -23,7 +23,7 @@
     %
 }{
     % If we are NOT in paper mode (i.e. in composition mode or electronic mode)
-    \knowledgestyle{intro notion}{color={Ruby Red}}
+    \knowledgestyle{intro notion}{color={Ruby Red}, italic}
     \knowledgestyle{notion}{color={Midnight Green Eagle}}
     \hypersetup{
         colorlinks=true,
@@ -33,16 +33,16 @@
         filecolor={Midnight Green Eagle}, % Links to local file
         urlcolor={Midnight Green Eagle},
     }
-}
-\IfKnowledgeCompositionModeTF{
-    % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
-    \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
-    \knowledgestyle{intro unknown}{color={Gamboge}, emphasize}
-    \knowledgestyle{intro unknown cont}{color={Gamboge}, emphasize}
-    \knowledgestyle{kl unknown}{color={Gamboge}}
-    \knowledgestyle{kl unknown cont}{color={Gamboge}}
-}{
-    %
+    \IfKnowledgeElectronicModeTF{
+        %
+    }{
+        % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
+        \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
+        \knowledgestyle{intro unknown}{color={Gamboge}, italic}
+        \knowledgestyle{intro unknown cont}{color={Gamboge}, italic}
+        \knowledgestyle{kl unknown}{color={Gamboge}}
+        \knowledgestyle{kl unknown cont}{color={Gamboge}}
+    }
 }
 
 %%% Other packages 
@@ -572,7 +572,7 @@ For example, this document was produced using the following configuration:
         %
     }{
         % If we are NOT in paper mode (i.e. in composition mode or electronic mode)
-        \knowledgestyle{intro notion}{color={Ruby Red}, emphasize}
+        \knowledgestyle{intro notion}{color={Ruby Red}, italic}
         \knowledgestyle{notion}{color={Midnight Green Eagle}}
         \hypersetup{
             colorlinks=true,
@@ -582,16 +582,16 @@ For example, this document was produced using the following configuration:
             filecolor={Midnight Green Eagle}, % Links to local file
             urlcolor={Midnight Green Eagle},
         }
-    }
-    \IfKnowledgeCompositionModeTF{
-        % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
-        \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
-        \knowledgestyle{intro unknown}{color={Gamboge}, emphasize}
-        \knowledgestyle{intro unknown cont}{color={Gamboge}, emphasize}
-        \knowledgestyle{kl unknown}{color={Gamboge}}
-        \knowledgestyle{kl unknown cont}{color={Gamboge}}
-    }{
-        %
+        \IfKnowledgeElectronicModeTF{
+            %
+        }{
+            % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
+            \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
+            \knowledgestyle{intro unknown}{color={Gamboge}, italic}
+            \knowledgestyle{intro unknown cont}{color={Gamboge}, italic}
+            \knowledgestyle{kl unknown}{color={Gamboge}}
+            \knowledgestyle{kl unknown cont}{color={Gamboge}}
+        }
     }
 \end{spverbatim}
 
