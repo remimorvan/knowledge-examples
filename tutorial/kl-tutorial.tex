@@ -45,11 +45,13 @@
     }
 }
 
+
 %%% Other packages 
 
 \usepackage{graphicx}
 \usepackage{spverbatim}
 \usepackage{ulem}
+\usepackage{multicol}
 
 
 \title{A tutorial for the "knowledge@@package" package}
@@ -479,6 +481,40 @@ will print in your prompt
 	    @ord : [['ordinals', 'countable'], ['ord']]
 \end{verbatim}
 
+\paragraph{Config files} \AP""Configuration files"" are used to specify
+the list of 
+prefix such that two words that differ on that prefix should be clustered 
+together (suffix are treated using natural language processing).
+You can define a custom "configuration file" with your own list of prefixex:
+it should start with the lines 
+\begin{spverbatim}
+    [DEFAULT]
+    PREFIXES_SIMILAR=
+\end{spverbatim}
+and then, on each line, contain a single prefix, preceded by a tabulation,
+and potentially followed by a comment (which should start with a hash).
+The default "configuration files" can be found
+in the "knowledge-clustering" installation folder under the name
+\begin{center}%
+    \texttt{knowledge\_clustering/data/english.ini}
+    and \texttt{knowledge\_clustering/data/french.ini}.
+\end{center}
+For instance, the "file@configuration file" for english is:
+\begin{spverbatim}
+    [DEFAULT]
+    PREFIXES_SIMILAR=
+        # Empty string
+        - # ignore dashes
+        a # (a)chromatic
+        il
+        im
+        in # (in)separable
+        ir
+        un # (un)ambiguous    
+\end{spverbatim}
+This custom "configuration file" can be given to "knowledge-clustering"
+using the option \spverb|-c| or \spverb|--config-file|.
+
 
 \subsection{Forgotten quotes}
 
@@ -521,13 +557,44 @@ Finally, the option \spverb|-F| or \spverb|--force| adds
 quote symbols around every match, without asking your consent first.
 It is \textbf{highly discouraged} to use this option. 
 
+
 \subsection{Contributing to "knowledge-clustering"}
 
 If you have bugs to report or suggestions, you can submit a
 \href{https://github.com/remimorvan/knowledge-clustering/issues}{new issue},
 or a \href{https://github.com/remimorvan/knowledge-examples/pulls}{new pull} 
-request on \href{https://github.com/remimorvan/knowledge-examples}{github}, or get in touch by email with
-one of the maintainers.
+request on \href{https://github.com/remimorvan/knowledge-examples}{github}, or 
+get in touch by email with one of the maintainers.
+
+If you want "knowledge-clustering" to support a language that is not yet 
+supported, provided that this language belongs to the following list:
+\begin{multicols}{2}
+    \begin{itemize}
+        \item arabic,
+        \item dutch,
+        \item english (already supported),
+        \item finnish,
+        \item french (already supported),
+        \item german,
+        \item hungarian,
+        \item italian,
+        \item norwegian,
+        \item portuguese,
+        \item romanian,
+        \item russian,
+        \item spanish,
+        \item swedish,
+    \end{itemize}
+\end{multicols}
+the modification should be quite quick. Essentially, it amounts to writing a
+"configuration file" for this language, and changing a few lines
+in this file\footnote{More precisely, you should change the constants
+\texttt{CONFIG\_FILENAME}, \texttt{NLTK\_LANG}, the definition of
+\texttt{knowledge init}, and the possible choices for the \texttt{--lang}
+option of \texttt{knowledge cluster}.} \spverb|app.py|.
+You can do it yourself and create a \href{https://github.com/remimorvan/knowledge-clustering/pulls}{new pull request},
+or get in touch with us.
+
 
 
 \section{Advanced features}
