@@ -15,33 +15,33 @@
 
 %%% Custom colors for links
 
-\definecolor{Midnight Green Eagle}{HTML}{005566}
-\definecolor{Gamboge}{HTML}{ee9b00}
-\definecolor{Ruby Red}{HTML}{9b2226}
+\definecolor{Dark Ruby Red}{HTML}{7c1b1e}
+\definecolor{Dark Blue Sapphire}{HTML}{004c5c}
+\definecolor{Dark Gamboge}{HTML}{be7c00}
 
 \IfKnowledgePaperModeTF{
     %
 }{
     % If we are NOT in paper mode (i.e. in composition mode or electronic mode)
-    \knowledgestyle{intro notion}{color={Ruby Red}, italic}
-    \knowledgestyle{notion}{color={Midnight Green Eagle}}
+    \knowledgestyle{intro notion}{color={Dark Ruby Red}, italic}
+    \knowledgestyle{notion}{color={Dark Blue Sapphire}}
     \hypersetup{
         colorlinks=true,
         breaklinks=true,
-        linkcolor={Midnight Green Eagle}, % Links to sections, pages, etc.
-        citecolor={Midnight Green Eagle}, % Links to bibliography
-        filecolor={Midnight Green Eagle}, % Links to local file
-        urlcolor={Midnight Green Eagle},
+        linkcolor={Dark Blue Sapphire}, % Links to sections, pages, etc.
+        citecolor={Dark Blue Sapphire}, % Links to bibliography
+        filecolor={Dark Blue Sapphire}, % Links to local file
+        urlcolor={Dark Blue Sapphire},
     }
     \IfKnowledgeElectronicModeTF{
         %
     }{
         % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
-        \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
-        \knowledgestyle{intro unknown}{color={Gamboge}, italic}
-        \knowledgestyle{intro unknown cont}{color={Gamboge}, italic}
-        \knowledgestyle{kl unknown}{color={Gamboge}}
-        \knowledgestyle{kl unknown cont}{color={Gamboge}}
+        \knowledgeconfigure{anchor point color={Dark Ruby Red}, anchor point shape=corner}
+        \knowledgestyle{intro unknown}{color={Dark Gamboge}, italic}
+        \knowledgestyle{intro unknown cont}{color={Dark Gamboge}, italic}
+        \knowledgestyle{kl unknown}{color={Dark Gamboge}}
+        \knowledgestyle{kl unknown cont}{color={Dark Gamboge}}
     }
 }
 
@@ -50,7 +50,6 @@
 
 \usepackage{graphicx}
 \usepackage{spverbatim}
-\usepackage{ulem}
 \usepackage{multicol}
 
 
@@ -611,7 +610,8 @@ will still be printed in black. Moreover, if it is in
 "composition mode", undefined "knowledges@@concept" will appear in yellow,
 and anchor points in red.
 
-Unfortunately, the default colors are \sout{ugly} not maximizing the aesthetical potential of your "latex" document.
+Unfortunately, the default colors are not maximizing the aesthetical
+potential of your "latex" document.
 Using \verb|\knowledgestyle| (\href{https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/contrib/knowledge/knowledge.pdf#subsubsection.3.3.4}{§3.3.4} of the "documentation"), you can customise these colors. Moreover,
 \verb|\hypersetup| from the "hyperref" package lets you change the colors of
 external hyperlinks. Finaly, using
@@ -631,33 +631,33 @@ this can be achieved using the commands:
 
 For example, this document was produced using the following configuration:
 \begin{spverbatim}
-    \definecolor{Midnight Green Eagle}{HTML}{005566}
-    \definecolor{Gamboge}{HTML}{ee9b00}
-    \definecolor{Ruby Red}{HTML}{9b2226}
-
+    \definecolor{Dark Ruby Red}{HTML}{7c1b1e}
+    \definecolor{Dark Blue Sapphire}{HTML}{004c5c}
+    \definecolor{Dark Gamboge}{HTML}{be7c00}
+    
     \IfKnowledgePaperModeTF{
         %
     }{
         % If we are NOT in paper mode (i.e. in composition mode or electronic mode)
-        \knowledgestyle{intro notion}{color={Ruby Red}, italic}
-        \knowledgestyle{notion}{color={Midnight Green Eagle}}
+        \knowledgestyle{intro notion}{color={Dark Ruby Red}, italic}
+        \knowledgestyle{notion}{color={Dark Blue Sapphire}}
         \hypersetup{
             colorlinks=true,
             breaklinks=true,
-            linkcolor={Midnight Green Eagle}, % Links to sections, pages, etc.
-            citecolor={Midnight Green Eagle}, % Links to bibliography
-            filecolor={Midnight Green Eagle}, % Links to local file
-            urlcolor={Midnight Green Eagle},
+            linkcolor={Dark Blue Sapphire}, % Links to sections, pages, etc.
+            citecolor={Dark Blue Sapphire}, % Links to bibliography
+            filecolor={Dark Blue Sapphire}, % Links to local file
+            urlcolor={Dark Blue Sapphire},
         }
         \IfKnowledgeElectronicModeTF{
             %
         }{
             % If we are in composition mode, highlight unknown stuff (in yellow) and display the anchor point.
-            \knowledgeconfigure{anchor point color={Ruby Red}, anchor point shape=corner}
-            \knowledgestyle{intro unknown}{color={Gamboge}, italic}
-            \knowledgestyle{intro unknown cont}{color={Gamboge}, italic}
-            \knowledgestyle{kl unknown}{color={Gamboge}}
-            \knowledgestyle{kl unknown cont}{color={Gamboge}}
+            \knowledgeconfigure{anchor point color={Dark Ruby Red}, anchor point shape=corner}
+            \knowledgestyle{intro unknown}{color={Dark Gamboge}, italic}
+            \knowledgestyle{intro unknown cont}{color={Dark Gamboge}, italic}
+            \knowledgestyle{kl unknown}{color={Dark Gamboge}}
+            \knowledgestyle{kl unknown cont}{color={Dark Gamboge}}
         }
     }
 \end{spverbatim}
