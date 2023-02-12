@@ -95,7 +95,7 @@ information to terms. It can be used for:
     \item replacing some macros.
 \end{itemize}
 
-Primarily, the goal of "knowledge@@package" is to produce of scientific documents (the longer, the more interesting, such as a thesis or a book) in order to improve their readability on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware.
+Primarily, the goal of "knowledge@@package" is to improve the reading experience for scientific documents (the longer, the more interesting, such as a thesis or a book) on electronic devices. Ultimately, the goal is to produce documents that are more semantic-aware.
 
 \subsection{This tutorial}
 
@@ -456,8 +456,8 @@ To display the help, you can run \spverb|knowledge cluster --help|.
 
 \paragraph{Language} The "clustering" algorithm relies on natural language 
 processing and is language-specific. As of today, only two languages
-are supported: english (which is the default language) and french.
-To use "knowledge-clustering" on a document written in french,
+are supported: English (which is the default language) and French.
+To use "knowledge-clustering" on a document written in French,
 simply add \spverb|-l fr| or \spverb|--lang fr| at the end of your command.
 
 
@@ -484,7 +484,7 @@ will print in your prompt
 the list of 
 prefix such that two words that differ on that prefix should be clustered 
 together (suffix are treated using natural language processing).
-You can define a custom "configuration file" with your own list of prefixex:
+You can define a custom "configuration file" with your own list of prefixes:
 it should start with the lines 
 \begin{spverbatim}
     [DEFAULT]
@@ -498,7 +498,7 @@ in the "knowledge-clustering" installation folder under the name
     \texttt{knowledge\_clustering/data/english.ini}
     and \texttt{knowledge\_clustering/data/french.ini}.
 \end{center}
-For instance, the "file@configuration file" for english is:
+For instance, the "file@configuration file" for English is:
 \begin{spverbatim}
     [DEFAULT]
     PREFIXES_SIMILAR=
@@ -569,20 +569,20 @@ If you want "knowledge-clustering" to support a language that is not yet
 supported, provided that this language belongs to the following list:
 \begin{multicols}{2}
     \begin{itemize}
-        \item arabic,
-        \item dutch,
-        \item english (already supported),
-        \item finnish,
-        \item french (already supported),
-        \item german,
-        \item hungarian,
-        \item italian,
-        \item norwegian,
-        \item portuguese,
-        \item romanian,
-        \item russian,
-        \item spanish,
-        \item swedish,
+        \item Arabic,
+        \item Dutch,
+        \item English (already supported),
+        \item Finnish,
+        \item French (already supported),
+        \item German,
+        \item Hungarian,
+        \item Italian,
+        \item Norwegian,
+        \item Portuguese,
+        \item Romanian,
+        \item Russian,
+        \item Spanish,
+        \item Swedish,
     \end{itemize}
 \end{multicols}
 the modification should be quite quick. Essentially, it amounts to writing a
@@ -599,7 +599,7 @@ or get in touch with us.
 \section{Advanced features}
 \label{sec:advanced-features}
 
-This section is dedicated on more advanced features of "knowledge@@package".
+This section is dedicated to more advanced features of "knowledge@@package".
 
 \subsection{Changing the default colors}
 
